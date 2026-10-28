@@ -1,0 +1,336 @@
+/* =====================================
+   MEDIMATE FAQ PAGE
+===================================== */
+
+.faq-section {
+    min-height: calc(100vh - 73px);
+    padding: 45px 6% 60px;
+
+    background: linear-gradient(
+        135deg,
+        #f3fbf7,
+        #e8f7f2,
+        #f5fbff
+    );
+
+    border-radius: 20px;
+}
+
+
+/* =====================================
+   FAQ HEADING
+===================================== */
+
+.faq-section h1 {
+    color: #174f3c;
+
+    font-size: 36px;
+    font-weight: 750;
+
+    text-align: center;
+
+    margin: 20px 0 12px;
+}
+
+
+.faq-section .section-text {
+    color: #71877b;
+
+    font-size: 15px;
+    line-height: 1.8;
+
+    text-align: center;
+
+    margin: 0 auto 35px;
+}
+
+
+/* =====================================
+   HELP CENTER BADGE
+===================================== */
+
+.faq-section .badge {
+    display: inline-block;
+
+    padding: 10px 16px;
+
+    background: #ffffff;
+
+    color: #24764a;
+
+    border: 1px solid #dceee4;
+    border-radius: 30px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    box-shadow: 0 4px 14px rgba(39, 92, 62, 0.06);
+}
+
+
+/* =====================================
+   FAQ CONTAINER
+===================================== */
+
+.faq-section .faq-container {
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+/* =====================================
+   FAQ QUESTION CARDS
+===================================== */
+
+.faq-section .faq-container details {
+    background: #ffffff;
+
+    border: 1px solid #e0eee5;
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 18px rgba(38, 85, 55, 0.045);
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.faq-section .faq-container details:hover {
+    border-color: #b8dfc5;
+
+    box-shadow: 0 9px 24px rgba(38, 85, 55, 0.08);
+
+    transform: translateY(-2px);
+}
+
+
+/* =====================================
+   QUESTION
+===================================== */
+
+.faq-section .faq-container summary {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 20px 22px;
+
+    color: #28563f;
+
+    font-size: 15px;
+    font-weight: 650;
+
+    cursor: pointer;
+    list-style: none;
+
+    transition: background 0.25s ease;
+}
+
+
+/* Remove default arrow */
+
+.faq-section .faq-container summary::-webkit-details-marker {
+    display: none;
+}
+
+
+/* Custom arrow */
+
+.faq-section .faq-container summary::after {
+    content: "+";
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 32px;
+    height: 32px;
+
+    background: #e9f8ee;
+
+    color: #21804a;
+
+    border-radius: 50%;
+
+    font-size: 22px;
+    font-weight: 400;
+
+    flex-shrink: 0;
+
+    transition: 0.25s;
+}
+
+
+/* =====================================
+   OPEN QUESTION
+===================================== */
+
+.faq-section .faq-container details[open] {
+    border-color: #a9d9b9;
+}
+
+
+.faq-section .faq-container details[open] summary {
+    background: #f0faf3;
+
+    color: #176b43;
+}
+
+
+.faq-section .faq-container details[open] summary::after {
+    content: "−";
+
+    background: #23834d;
+
+    color: #ffffff;
+}
+
+
+/* =====================================
+   ANSWER
+===================================== */
+
+.faq-section .faq-container details > p {
+    padding: 0 22px 22px;
+
+    background: #f0faf3;
+
+    color: #63786a;
+
+    font-size: 14px;
+    line-height: 1.9;
+
+    margin: 0;
+}
+
+
+/* =====================================
+   TABLET RESPONSIVE
+===================================== */
+
+@media screen and (max-width: 900px) {
+
+    .faq-section {
+        padding: 35px 5% 45px;
+    }
+
+    .faq-section h1 {
+        font-size: 30px;
+    }
+
+    .faq-section .faq-container {
+        max-width: 750px;
+    }
+
+    .faq-section .faq-container summary {
+        padding: 18px;
+        font-size: 14px;
+    }
+
+}
+
+
+/* =====================================
+   MOBILE RESPONSIVE
+===================================== */
+
+@media screen and (max-width: 600px) {
+
+    .faq-section {
+        padding: 28px 16px 40px;
+
+        border-radius: 12px;
+    }
+
+    .faq-section h1 {
+        font-size: 25px;
+        line-height: 1.4;
+
+        margin-top: 20px;
+    }
+
+    .faq-section .section-text {
+        font-size: 13px;
+
+        margin-bottom: 25px;
+    }
+
+    .faq-section .badge {
+        font-size: 12px;
+        padding: 9px 13px;
+    }
+
+    .faq-section .faq-container {
+        gap: 12px;
+    }
+
+    .faq-section .faq-container details {
+        border-radius: 13px;
+    }
+
+    .faq-section .faq-container summary {
+        padding: 16px;
+
+        font-size: 13px;
+
+        gap: 10px;
+    }
+
+    .faq-section .faq-container summary::after {
+        min-width: 28px;
+        height: 28px;
+
+        font-size: 20px;
+    }
+
+    .faq-section .faq-container details > p {
+        padding: 0 16px 18px;
+
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+}
+
+
+/* =====================================
+   SMALL MOBILE
+===================================== */
+
+@media screen and (max-width: 380px) {
+
+    .faq-section {
+        padding: 22px 12px 30px;
+    }
+
+    .faq-section h1 {
+        font-size: 22px;
+    }
+
+    .faq-section .faq-container summary {
+        padding: 14px 12px;
+
+        font-size: 12px;
+    }
+
+    .faq-section .faq-container details > p {
+        padding: 0 12px 15px;
+
+        font-size: 12px;
+    }
+
+}

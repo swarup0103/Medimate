@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediMate</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="Home.css">
+    <link rel="stylesheet" href="Featuers.css">
+    <link rel="stylesheet" href="FAQ.css">
+    <link rel="stylesheet" href="About.css">
+    
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="register.css">
+
+    <!-- <link rel="stylesheet" href="Dashboard.css"> -->
+</head>
+<body>
+    <div class="nav">
+        <img src="logo.png" alt="">
+        <div class="menu">
+            <button onclick="ShowPage('home')">Home</button>
+            <button onclick="ShowPage('featuers')">Featuers</button>
+            <button onclick="ShowPage('faq')">FAQ</button>
+            <button onclick="ShowPage('about')">About</button>
+        </div>
+        <!-- Login Register Function -->
+        <div class="login">
+            <button onclick="ShowPage('login')">Login</button>
+            <button onclick="ShowPage('register')">Register</button>
+        </div>
+
+    </div>
+
+
+    <div class="main" id="main"></div>
+    <div class="foot"></div>
+
+    <script src="Script.js"></script>
+    <script src="Dashboard.js"></script>
+</body>
+</html>
+
+

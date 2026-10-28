@@ -1,0 +1,387 @@
+/* =====================================
+   MEDIMATE ABOUT PAGE
+===================================== */
+
+.about-section {
+    min-height: calc(100vh - 73px);
+    padding: 45px 6% 60px;
+
+    background: linear-gradient(
+        135deg,
+        #f3fbf7,
+        #e8f7f2,
+        #f5fbff
+    );
+
+    border-radius: 20px;
+}
+
+
+/* =====================================
+   ABOUT BADGE
+===================================== */
+
+.about-section .badge {
+    display: inline-block;
+
+    padding: 10px 17px;
+
+    background: #ffffff;
+    color: #24764a;
+
+    border: 1px solid #dceee4;
+    border-radius: 30px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    box-shadow: 0 4px 14px rgba(39, 92, 62, 0.06);
+}
+
+
+/* =====================================
+   ABOUT HEADING
+===================================== */
+
+.about-section > h1 {
+    margin: 22px 0 15px;
+
+    color: #174f3c;
+
+    font-size: 38px;
+    font-weight: 750;
+
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+
+/* =====================================
+   INTRODUCTION
+===================================== */
+
+.about-intro {
+    max-width: 800px;
+
+    margin: 0 auto 40px;
+    padding: 0 10px;
+
+    color: #71877b;
+
+    font-size: 15px;
+    line-height: 1.9;
+
+    text-align: center;
+}
+
+
+/* =====================================
+   ABOUT CARDS GRID
+===================================== */
+
+.about-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 24px;
+
+    max-width: 1200px;
+
+    margin: 0 auto 40px;
+}
+
+
+/* =====================================
+   INDIVIDUAL ABOUT CARD
+===================================== */
+
+.about-card {
+    position: relative;
+
+    padding: 32px 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #e0eee5;
+    border-radius: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 7px 24px rgba(38, 85, 55, 0.05);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+
+    overflow: hidden;
+}
+
+
+/* Green top border */
+
+.about-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background: linear-gradient(
+        90deg,
+        #27a568,
+        #8bd9a4
+    );
+}
+
+
+/* Card hover */
+
+.about-card:hover {
+    transform: translateY(-7px);
+
+    border-color: #b8dfc5;
+
+    box-shadow: 0 15px 35px rgba(38, 85, 55, 0.11);
+}
+
+
+/* =====================================
+   ABOUT ICONS
+===================================== */
+
+.about-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 75px;
+    height: 75px;
+
+    margin: 0 auto 22px;
+
+    background: linear-gradient(
+        135deg,
+        #e1f7e8,
+        #f1fff4
+    );
+
+    border: 1px solid #d9efdf;
+    border-radius: 22px;
+
+    font-size: 34px;
+
+    transition: transform 0.3s ease;
+}
+
+
+.about-card:hover .about-icon {
+    transform: scale(1.08) rotate(-3deg);
+}
+
+
+/* =====================================
+   CARD HEADINGS
+===================================== */
+
+.about-card h2 {
+    margin-bottom: 14px;
+
+    color: #216644;
+
+    font-size: 21px;
+    font-weight: 700;
+}
+
+
+/* =====================================
+   CARD DESCRIPTION
+===================================== */
+
+.about-card p {
+    color: #74877a;
+
+    font-size: 13px;
+    line-height: 1.9;
+
+    margin: 0;
+}
+
+
+/* =====================================
+   ABOUT HIGHLIGHT SECTION
+===================================== */
+
+.about-highlight {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 35px 30px;
+
+    background: linear-gradient(
+        120deg,
+        #dff5e6,
+        #f3fff5
+    );
+
+    border: 1px solid #d2ebd9;
+    border-radius: 22px;
+
+    text-align: center;
+
+    box-shadow: 0 7px 24px rgba(38, 85, 55, 0.04);
+}
+
+
+.about-highlight h2 {
+    margin-bottom: 15px;
+
+    color: #176b43;
+
+    font-size: 25px;
+    font-weight: 750;
+}
+
+
+.about-highlight p {
+    max-width: 750px;
+
+    margin: 0 auto;
+
+    color: #617769;
+
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+
+/* =====================================
+   TABLET RESPONSIVE
+===================================== */
+
+@media screen and (max-width: 900px) {
+
+    .about-section {
+        padding: 35px 5% 45px;
+    }
+
+    .about-section > h1 {
+        font-size: 32px;
+    }
+
+    .about-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .about-card {
+        padding: 28px 20px;
+    }
+
+    .about-highlight {
+        padding: 30px 22px;
+    }
+
+}
+
+
+/* =====================================
+   MOBILE RESPONSIVE
+===================================== */
+
+@media screen and (max-width: 600px) {
+
+    .about-section {
+        padding: 28px 16px 40px;
+        border-radius: 12px;
+    }
+
+    .about-section .badge {
+        padding: 9px 13px;
+        font-size: 12px;
+    }
+
+    .about-section > h1 {
+        margin: 20px 0 12px;
+        font-size: 27px;
+    }
+
+    .about-intro {
+        margin-bottom: 28px;
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 25px;
+    }
+
+    .about-card {
+        padding: 27px 22px;
+        border-radius: 17px;
+    }
+
+    .about-icon {
+        width: 65px;
+        height: 65px;
+        margin-bottom: 18px;
+        border-radius: 19px;
+        font-size: 30px;
+    }
+
+    .about-card h2 {
+        font-size: 19px;
+    }
+
+    .about-card p {
+        font-size: 13px;
+    }
+
+    .about-highlight {
+        padding: 26px 18px;
+        border-radius: 17px;
+    }
+
+    .about-highlight h2 {
+        font-size: 22px;
+    }
+
+    .about-highlight p {
+        font-size: 13px;
+    }
+
+}
+
+
+/* =====================================
+   SMALL MOBILE
+===================================== */
+
+@media screen and (max-width: 380px) {
+
+    .about-section {
+        padding: 22px 12px 30px;
+    }
+
+    .about-section > h1 {
+        font-size: 23px;
+    }
+
+    .about-card {
+        padding: 23px 17px;
+    }
+
+    .about-highlight {
+        padding: 22px 14px;
+    }
+
+}

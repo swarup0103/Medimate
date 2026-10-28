@@ -1,0 +1,737 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediMate | Dashboard</title>
+
+    <link rel="stylesheet" href="Dashboard.css">
+    <link rel="stylesheet" href="Medicine.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+
+    <style>
+        /* PROFILE PAGE */
+
+        .profile-page {
+            display: none;
+            padding: 25px;
+            background: #f7faf9;
+            min-height: 100vh;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .profile-header h1 {
+            margin: 0;
+            color: #174c3c;
+        }
+
+        .profile-header p {
+            color: #667085;
+        }
+
+        .profile-card {
+            max-width: 1000px;
+            margin: auto;
+            padding: 28px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .profile-photo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #profilePhotoPreview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e6f4ee;
+            border: 3px solid #1c8c65;
+            display: block;
+            margin: 0 auto 15px;
+        }
+
+        .profile-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .profile-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .profile-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .profile-field label {
+            font-weight: 600;
+            color: #344054;
+        }
+
+        .profile-field input,
+        .profile-field select,
+        .profile-field textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #d0d5dd;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+        }
+
+        .profile-field input:disabled,
+        .profile-field select:disabled,
+        .profile-field textarea:disabled {
+            background: #f2f4f7;
+            color: #667085;
+            cursor: not-allowed;
+        }
+
+        .profile-section-title {
+            grid-column: 1 / -1;
+            margin-top: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e4e7ec;
+            color: #167653;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .profile-actions button {
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        #saveProfileBtn {
+            background: #16865d;
+            color: white;
+        }
+
+        #editProfileBtn {
+            background: #1769aa;
+            color: white;
+        }
+
+        #cancelProfileBtn {
+            background: #e4e7ec;
+            color: #344054;
+        }
+
+        #profileMessage {
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .profile-page {
+                padding: 12px;
+            }
+
+            .profile-card {
+                padding: 18px;
+            }
+
+            .profile-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-field.full-width,
+            .profile-section-title {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+
+                <div>
+                    <h2>MediMate</h2>
+                    <p>Medicine Management</p>
+                </div>
+            </div>
+
+            <div class="sidebar-label">MAIN MENU</div>
+
+            <nav class="sidebar-navigation">
+
+                <button class="nav-item active" data-page="dashboard">
+                    <span><i class="fa-regular fa-house"></i></span>
+                    Dashboard
+                </button>
+
+                <button class="nav-item" data-page="medicines">
+                    <span><i class="fa-solid fa-capsules"></i></span>
+                    My Medicines
+                </button>
+
+                <button class="nav-item" data-page="schedule">
+                    <span><i class="fa-regular fa-clock"></i></span>
+                    Medicine Schedule
+                </button>
+
+                <button class="nav-item" data-page="stock">
+                    <span><i class="fa-solid fa-boxes-stacked"></i></span>
+                    Medicine Stock
+                </button>
+
+                <button class="nav-item" data-page="history">
+                    <span><i class="fa-solid fa-clock-rotate-left"></i></span>
+                    History
+                </button>
+
+                <button class="nav-item" data-page="caretakers">
+                    <span><i class="fa-solid fa-user-group"></i></span>
+                    Caretakers
+                </button>
+
+                <button class="nav-item" data-page="reports">
+                    <span><i class="fa-solid fa-chart-simple"></i></span>
+                    Reports
+                </button>
+
+            </nav>
+
+            <div class="sidebar-tip">
+                <div class="tip-icon">🌿</div>
+                <h3>Stay Healthy!</h3>
+                <p>Take your medicines on time and follow your daily schedule.</p>
+            </div>
+
+            <button class="back-home-button" id="backHome">
+                <span>↩</span>
+                Logout
+            </button>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main-content">
+
+            <!-- TOP BAR -->
+
+            <header class="topbar">
+
+                <div class="topbar-title">
+                    <h1>Dashboard</h1>
+                    <p>Welcome back! Here's your health overview.</p>
+                </div>
+
+                <div class="topbar-profile">
+
+                    <div class="notification-icon">
+                        <i class="fa-regular fa-bell"></i>
+                    </div>
+
+                    <div class="profile-avatar">
+                        <i class="fa-regular fa-circle-user"></i>
+                    </div>
+
+                    <div class="user-profile"
+                         id="userProfileTrigger"
+                         style="cursor:pointer;">
+
+                        <div class="user-info">
+                            <h3 id="userName">User</h3>
+                            <p>MediMate User</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- WELCOME BANNER -->
+
+            <section class="welcome-banner">
+
+                <div class="welcome-text">
+                    <span class="welcome-badge">
+                        YOUR HEALTH COMPANION
+                    </span>
+
+                    <h2>Hello, <span id="welcomeName">User</span>!</h2>
+
+                    <p>
+                        Keep track of your medicines and take control
+                        of your health journey.
+                    </p>
+                </div>
+
+                <div class="welcome-illustration">
+                    <i class="fa-solid fa-pills"></i>
+                </div>
+
+            </section>
+
+
+            <!-- SUMMARY CARDS -->
+
+            <section class="summary-grid">
+
+                <div class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="summary-icon medicine-icon">
+                            <i class="fa-solid fa-capsules"></i>
+                        </div>
+                        <span class="summary-tag">TOTAL</span>
+                    </div>
+
+                    <h2 id="totalMedicines">0</h2>
+                    <p>Total Medicines</p>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="summary-icon dose-icon">
+                            <i class="fa-solid fa-alarm-clock"></i>
+                        </div>
+                        <span class="summary-tag">TODAY</span>
+                    </div>
+
+                    <h2 id="todayDoses">0</h2>
+                    <p>Today's Doses</p>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="summary-icon next-dose-icon">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <span class="summary-tag">NEXT</span>
+                    </div>
+
+                    <h2 id="nextDose">--:--</h2>
+                    <p>Next Dose</p>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-card-top">
+                        <div class="summary-icon stock-icon">
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+                        <span class="summary-tag">STOCK</span>
+                    </div>
+
+                    <h2 id="lowStock">0</h2>
+                    <p>Low Stock Medicines</p>
+                </div>
+
+            </section>
+
+
+            <!-- MEDICINE SCHEDULE AND STOCK -->
+
+            <section class="bottom-grid">
+
+                <div class="content-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Medicine Schedule</h2>
+                            <p>Your upcoming medicine doses.</p>
+                        </div>
+
+                        <span class="panel-icon">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </span>
+                    </div>
+
+                    <div id="dashboardSchedule"
+                         class="empty-state compact-empty">
+                        <div class="empty-icon">💊</div>
+                        <h3>No Schedule Available</h3>
+                        <p>Your medicine schedule will appear here.</p>
+                    </div>
+                </div>
+
+                <div class="content-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Medicine Stock</h2>
+                            <p>Monitor your remaining medicines.</p>
+                        </div>
+
+                        <span class="panel-icon">
+                            <i class="fa-solid fa-boxes-packing"></i>
+                        </span>
+                    </div>
+
+                    <div id="dashboardStock"
+                         class="empty-state compact-empty">
+                        <div class="empty-icon">📋</div>
+                        <h3>No Stock Information</h3>
+                        <p>Medicine stock details will appear here.</p>
+                    </div>
+                </div>
+
+                <div class="content-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Recent Activity</h2>
+                            <p>Your latest medicine activities.</p>
+                        </div>
+
+                        <span class="panel-icon">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </span>
+                    </div>
+
+                    <div id="dashboardActivity"
+                         class="empty-state compact-empty">
+                        <div class="empty-icon">📝</div>
+                        <h3>No Recent Activity</h3>
+                        <p>Your activities will appear here.</p>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- HEALTH TIP -->
+
+            <section class="health-tip-banner">
+                <div class="health-banner-icon">🌿</div>
+
+                <div>
+                    <h3>Today's Health Tip</h3>
+                    <p>
+                        Take your medicines at the prescribed time
+                        and follow your doctor's instructions.
+                    </p>
+                </div>
+            </section>
+
+
+            <footer class="dashboard-footer">
+                <p>© 2026 MediMate | Your Health, Our Priority 💚</p>
+            </footer>
+
+
+            <!-- ===================================
+                 INDIVIDUAL USER PROFILE FORM
+            ==================================== -->
+
+            <section id="userProfileSection" class="profile-page">
+
+                <div class="profile-header">
+                    <div>
+                        <h1>My Health Profile</h1>
+                        <p>Manage your personal and medical information.</p>
+                    </div>
+                </div>
+
+                <div class="profile-card">
+
+                    <form id="userProfileForm">
+
+                        <!-- PHOTO -->
+
+                        <div class="profile-photo-section">
+
+                            <img id="profilePhotoPreview"
+                                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='100%25' height='100%25' fill='%23e6f4ee'/%3E%3Ctext x='50%25' y='55%25' font-size='48' text-anchor='middle' fill='%231c8c65'%3E%2B%3C/text%3E%3C/svg%3E"
+                                 alt="Profile Photo">
+
+                            <label for="userPhoto">
+                                Upload Profile Photo
+                            </label>
+
+                            <input type="file"
+                                   id="userPhoto"
+                                   accept="image/*"
+                                   disabled>
+
+                        </div>
+
+
+                        <div class="profile-form-grid">
+
+                            <!-- PERSONAL INFORMATION -->
+
+                            <h2 class="profile-section-title">
+                                Personal Information
+                            </h2>
+
+                            <div class="profile-field">
+                                <label for="first_name">First Name *</label>
+                                <input type="text"
+                                       id="first_name"
+                                       name="first_name"
+                                       required
+                                       disabled>
+                            </div>
+
+                            <div class="profile-field">
+                                <label for="middle_name">Middle Name</label>
+                                <input type="text"
+                                       id="middle_name"
+                                       name="middle_name"
+                                       disabled>
+                            </div>
+
+                            <div class="profile-field">
+                                <label for="last_name">Last Name *</label>
+                                <input type="text"
+                                       id="last_name"
+                                       name="last_name"
+                                       required
+                                       disabled>
+                            </div>
+
+                            <div class="profile-field">
+                                <label for="age">Age *</label>
+                                <input type="number"
+                                       id="age"
+                                       name="age"
+                                       min="1"
+                                       max="120"
+                                       required
+                                       disabled>
+                            </div>
+
+                            <div class="profile-field">
+                                <label for="gender">Gender *</label>
+                                <select id="gender"
+                                        name="gender"
+                                        required
+                                        disabled>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                    <option value="Prefer not to say">
+                                        Prefer not to say
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="profile-field">
+                                <label for="blood_group">Blood Group</label>
+                                <select id="blood_group"
+                                        name="blood_group"
+                                        disabled>
+                                    <option value="">Select Blood Group</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A−</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B−</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB−</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O−</option>
+                                    <option value="Unknown">Not Known</option>
+                                </select>
+                            </div>
+
+                            <div class="profile-field">
+                                <label for="mobile_number">Mobile Number *</label>
+                                <input type="tel"
+                                       id="mobile_number"
+                                       name="mobile_number"
+                                       maxlength="15"
+                                       required
+                                       disabled>
+                            </div>
+
+                            <div class="profile-field full-width">
+                                <label for="address">Address</label>
+                                <textarea id="address"
+                                          name="address"
+                                          rows="3"
+                                          disabled></textarea>
+                            </div>
+
+
+                            <!-- MEDICAL INFORMATION -->
+
+                            <h2 class="profile-section-title">
+                                Medical Information
+                            </h2>
+
+                            <div class="profile-field">
+                                <label for="bp">High Blood Pressure (BP)?</label>
+                                <select id="bp" name="bp" disabled>
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+
+                            <div class="profile-field">
+                                <label for="diabetes">Diabetes?</label>
+                                <select id="diabetes"
+                                        name="diabetes"
+                                        disabled>
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+
+                            <div class="profile-field">
+                                <label for="heart_disease">Heart Disease?</label>
+                                <select id="heart_disease"
+                                        name="heart_disease"
+                                        disabled>
+                                    <option value="">Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+
+                            <div class="profile-field full-width">
+                                <label for="medicine_allergies">
+                                    Medicine Allergies
+                                </label>
+
+                                <textarea id="medicine_allergies"
+                                          name="medicine_allergies"
+                                          rows="3"
+                                          placeholder="Enter medicine allergies, if any"
+                                          disabled></textarea>
+                            </div>
+
+                            <div class="profile-field full-width">
+                                <label for="other_medical_conditions">
+                                    Other Medical Conditions
+                                </label>
+
+                                <textarea id="other_medical_conditions"
+                                          name="other_medical_conditions"
+                                          rows="3"
+                                          placeholder="Enter other medical conditions, if any"
+                                          disabled></textarea>
+                            </div>
+
+
+                            <!-- DOCTOR AND EMERGENCY INFORMATION -->
+
+                            <h2 class="profile-section-title">
+                                Doctor & Emergency Contact
+                            </h2>
+
+                            <div class="profile-field">
+                                <label for="family_doctor_name">
+                                    Family Doctor Name
+                                </label>
+
+                                <input type="text"
+                                       id="family_doctor_name"
+                                       name="family_doctor_name"
+                                       disabled>
+                            </div>
+
+                            <div class="profile-field">
+                                <label for="family_doctor_contact">
+                                    Family Doctor Contact
+                                </label>
+
+                                <input type="tel"
+                                       id="family_doctor_contact"
+                                       name="family_doctor_contact"
+                                       maxlength="15"
+                                       disabled>
+                            </div>
+
+                            <div class="profile-field full-width">
+                                <label for="emergency_contact_number">
+                                    Emergency Contact Number *
+                                </label>
+
+                                <input type="tel"
+                                       id="emergency_contact_number"
+                                       name="emergency_contact_number"
+                                       maxlength="15"
+                                       required
+                                       disabled>
+                            </div>
+
+                        </div>
+
+
+                        <!-- BUTTONS -->
+
+                        <div class="profile-actions">
+
+                            <button type="button"
+                                    id="editProfileBtn">
+                                Edit Profile
+                            </button>
+
+                            <button type="submit"
+                                    id="saveProfileBtn"
+                                    style="display:none;">
+                                Save Profile
+                            </button>
+
+                            <button type="button"
+                                    id="cancelProfileBtn">
+                                Cancel
+                            </button>
+
+                        </div>
+
+                        <p id="profileMessage" role="status"></p>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- DASHBOARD JAVASCRIPT -->
+
+    <script src="./Dashboard.js"></script>
+
+</body>
+</html>
+```

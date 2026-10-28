@@ -1,0 +1,80 @@
+.page-section .feature-grid
+    {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 20px;
+        margin-top: 3%;
+    }
+.page-section .feature-box
+    {
+        background: linear-gradient(
+                    145deg,
+                    #ffffff 0%,
+                    #f3fbfa 100%);
+        border: 1px solid #d8eeeb;
+        border-radius: 22px;
+        width: 40%;
+        height: 350px;
+        margin: auto;
+        padding: 15px;
+        box-shadow:
+            0 8px 25px rgba(23, 107, 103, 0.08);
+    }
+
+.feature-box h3 
+    {
+        font-size: 18px;
+    }
+
+.feature-box p 
+    {
+        font-size: 14px;
+
+        line-height: 1.6;
+    }
+.feature-img img
+    {
+        margin-top: 15%;
+        height: auto;
+        width: 240px;
+    }
+.feature-box
+    {
+        display:flex ;
+        flex-direction: row;
+    }
+.feature-card ul
+    {
+        font-size: 20px;
+        margin-left: 15%;
+    }
+.feature-card h3    
+    {
+        font-size: 25px;
+        margin-top: 5%;
+        margin-bottom: 2%;
+        margin-left: 5%;
+    }
+.feature-card li
+    {
+        padding: 1%;
+    }
+#Clipboard
+    {
+        height: 240px;
+        width: 200px;
+    }
+#pad
+    {
+        margin-left: 30%;
+        margin-right: -40%;
+    }
+#heading h3
+    {
+        margin-left: 15%;
+        margin-right: -40%;
+    }
+.page-section h1,p
+    {
+        text-align: center;
+    }
