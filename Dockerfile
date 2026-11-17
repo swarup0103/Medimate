@@ -15,6 +15,7 @@ WORKDIR /app
 COPY --from=frontend-build /build/backend/requirements.txt /app/backend/requirements.txt
 RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 COPY --from=frontend-build /build/backend /app/backend
+COPY live-deploy/init_core_schema.py /app/backend/init_core_schema.py
 COPY --from=frontend-build /build/medimate/dist /app/medimate/dist
 WORKDIR /app/backend
-CMD ["sh","-c","gunicorn --bind 0.0.0.0:${PORT:-8080} --workers 1 --threads 4 --timeout 120 app:app"]
+CMD ["sh","-c","python init_core_schema.py && gunicorn --bind 0.0.0.0:${PORT:-8080} --workers 1 --threads 4 --timeout 120 app:app"]
