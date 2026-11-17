@@ -1,11 +1,13 @@
 FROM node:22-bookworm-slim AS frontend-build
 WORKDIR /build
 COPY live-deploy/archive/ /tmp/archive-parts/
+COPY live-deploy/patch_branding.mjs /tmp/patch_branding.mjs
 RUN apt-get update && apt-get install -y --no-install-recommends unzip \
     && cat /tmp/archive-parts/part-*.b64 | base64 -d > /tmp/MediMateDeploy.zip \
     && unzip -q /tmp/MediMateDeploy.zip -d /build \
     && rm -rf /var/lib/apt/lists/*
-RUN sed -i 's|"./login.css"|"./Login.css"|' /build/medimate/src/pages/Login.jsx \
+RUN node /tmp/patch_branding.mjs /build/medimate \
+    && sed -i 's|"./login.css"|"./Login.css"|' /build/medimate/src/pages/Login.jsx \
     && sed -i 's|"./register.css"|"./Register.css"|' /build/medimate/src/pages/Register.jsx
 RUN cd /build/medimate && npm ci --no-audit --no-fund && npm run build
 
