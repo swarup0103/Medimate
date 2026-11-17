@@ -5,6 +5,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends unzip \
     && cat /tmp/archive-parts/part-*.b64 | base64 -d > /tmp/MediMateDeploy.zip \
     && unzip -q /tmp/MediMateDeploy.zip -d /build \
     && rm -rf /var/lib/apt/lists/*
+RUN sed -i 's|"./login.css"|"./Login.css"|' /build/medimate/src/pages/Login.jsx \
+    && sed -i 's|"./register.css"|"./Register.css"|' /build/medimate/src/pages/Register.jsx
 RUN cd /build/medimate && npm ci --no-audit --no-fund && npm run build
 
 FROM python:3.12-slim
