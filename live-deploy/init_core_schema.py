@@ -1,5 +1,12 @@
 """Create the core MediMate tables on a fresh hosted database before app startup."""
+import logging
+import os
+
+from werkzeug.security import generate_password_hash
+
 from db import get_db_connection
+
+logger = logging.getLogger(__name__)
 
 CORE_SCHEMA = (
     """
