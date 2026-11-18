@@ -123,13 +123,13 @@ await edit("src/pages/Login.jsx", (text) => text
 );
 
 const authRoutesFile = path.resolve(root, "../backend/routes/auth_routes.py");
-let authRoutes = (await readFile(authRoutesFile, "utf8")).replaceAll("\\r\\n", "\\n");
+let authRoutes = (await readFile(authRoutesFile, "utf8")).replaceAll("\r\n", "\n");
 const otpStart = '        otp = f"{secrets.randbelow(1_000_000):06d}"';
 const otpEndLine = '        return jsonify({"otp_required": True, "message": "A login code was sent to your email."}), 200';
 const startIndex = authRoutes.indexOf(otpStart);
 const endIndex = authRoutes.indexOf(otpEndLine, startIndex);
 if (startIndex < 0 || endIndex < 0) throw new Error("Login OTP block was not found.");
-const endIndexWithNewline = authRoutes.indexOf("\\n", endIndex) + 1;
+const endIndexWithNewline = endIndex + otpEndLine.length;
 const passwordOnlyLogin = `        session.clear()
         session["user_id"] = user[0]
         session.permanent = True
