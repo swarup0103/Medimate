@@ -112,3 +112,33 @@ def send_email(to_email, subject, body):
         server.login(mail_username, mail_password)
         server.send_message(message)
 `, "utf8");
+
+await edit("src/pages/Login.jsx", (text) => text
+  .replace(`      setOtpStep(true);
+      setMessage(result.message || "Email var OTP pathavla aahe.");`,
+           `      localStorage.setItem("userName", result.user?.full_name || "User");
+      onNavigate?.("dashboard");`)
+  .replace('{loading ? "Sending OTP..." : "Login"}',
+           '{loading ? "Signing in..." : "Login"}')
+);
+
+const authRoutesFile = path.resolve(root, "../backend/routes/auth_routes.py");
+let authRoutes = (await readFile(authRoutesFile, "utf8")).replaceAll("\\r\\n", "\\n");
+const otpStart = '        otp = f"{secrets.randbelow(1_000_000):06d}"';
+const otpEndLine = '        return jsonify({"otp_required": True, "message": "A login code was sent to your email."}), 200';
+const startIndex = authRoutes.indexOf(otpStart);
+const endIndex = authRoutes.indexOf(otpEndLine, startIndex);
+if (startIndex < 0 || endIndex < 0) throw new Error("Login OTP block was not found.");
+const endIndexWithNewline = authRoutes.indexOf("\\n", endIndex) + 1;
+const passwordOnlyLogin = `        session.clear()
+        session["user_id"] = user[0]
+        session.permanent = True
+        return jsonify({"message": "Login successful.", "user": {"id": user[0], "full_name": user[1], "email": user[2], "role": user[4], "approval_status": user[5]}}), 200
+`;
+authRoutes = authRoutes.slice(0, startIndex) + passwordOnlyLogin + authRoutes.slice(endIndexWithNewline);
+authRoutes = authRoutes
+  .replace('current_app.logger.exception("Login OTP could not be sent")',
+           'current_app.logger.exception("Login failed")')
+  .replace('return jsonify({"message": "Could not send the login code. Please check email settings and try again."}), 500',
+           'return jsonify({"message": "Login failed. Please try again."}), 500');
+await writeFile(authRoutesFile, authRoutes, "utf8");
