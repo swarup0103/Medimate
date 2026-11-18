@@ -12,6 +12,7 @@ CORE_SCHEMA = (
         `Pass` VARCHAR(255) NOT NULL,
         role ENUM('patient','admin') NOT NULL DEFAULT 'patient',
         approval_status ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+        is_primary_admin TINYINT(1) NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
     """,
@@ -72,12 +73,80 @@ CORE_SCHEMA = (
     """,
 )
 
+
+def ensure_primary_admin(cursor):
+    email = os.getenv("DEFAULT_ADMIN_EMAIL", "").strip().lower()
+    password = os.getenv("DEFAULT_ADMIN_PASSWORD", "")
+    if not email and not password:
+        return
+    if not email or not password:
+        raise RuntimeError("Set both DEFAULT_ADMIN_EMAIL and DEFAULT_ADMIN_PASSWORD.")
+    if len(email) > 254 or email.count("@") != 1 or "." not in email.rsplit("@", 1)[-1]:
+        raise RuntimeError("DEFAULT_ADMIN_EMAIL must be a valid email address.")
+
+    cursor.execute(
+        "SELECT id, role, approval_status, is_primary_admin FROM medimate_register WHERE email = %s",
+        (email,),
+    )
+    user = cursor.fetchone()
+    if user:
+        if user[1] != "admin" or user[2] != "approved" or not user[3]:
+            cursor.execute(
+                "UPDATE medimate_register SET role = 'admin', approval_status = 'approved', "
+                "is_primary_admin = 1, Pass = %s WHERE id = %s",
+                (generate_password_hash(password), user[0]),
+            )
+        return
+
+    full_name = os.getenv("DEFAULT_ADMIN_FULL_NAME", "").strip()
+    dob = os.getenv("DEFAULT_ADMIN_DOB", "").strip()
+    phone = os.getenv("DEFAULT_ADMIN_PHONE", "").strip()
+    if not all((full_name, dob, phone)):
+        logger.warning(
+            "No account exists for DEFAULT_ADMIN_EMAIL. Set DEFAULT_ADMIN_FULL_NAME, "
+            "DEFAULT_ADMIN_DOB, and DEFAULT_ADMIN_PHONE to create the primary admin."
+        )
+        return
+    if len(full_name) > 100 or not full_name.replace(" ", "").isalpha():
+        raise RuntimeError("DEFAULT_ADMIN_FULL_NAME must contain 2-100 letters and spaces.")
+    if not phone.isdigit() or not 10 <= len(phone) <= 15:
+        raise RuntimeError("DEFAULT_ADMIN_PHONE must contain 10-15 digits.")
+
+    cursor.execute(
+        """
+        INSERT INTO medimate_register
+            (full_name, DOB, phone, email, Pass, role, approval_status, is_primary_admin)
+        VALUES (%s, %s, %s, %s, %s, 'admin', 'approved', 1)
+        """,
+        (full_name, dob, phone, email, generate_password_hash(password)),
+    )
+
+
 def main():
     connection = get_db_connection()
     cursor = connection.cursor()
     try:
         for statement in CORE_SCHEMA:
             cursor.execute(statement)
+        cursor.execute("SHOW COLUMNS FROM medimate_register LIKE %s", ("role",))
+        if not cursor.fetchone():
+            cursor.execute(
+                "ALTER TABLE medimate_register ADD COLUMN role "
+                "ENUM('patient','admin') NOT NULL DEFAULT 'patient'"
+            )
+        cursor.execute("SHOW COLUMNS FROM medimate_register LIKE %s", ("approval_status",))
+        if not cursor.fetchone():
+            cursor.execute(
+                "ALTER TABLE medimate_register ADD COLUMN approval_status "
+                "ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending'"
+            )
+        cursor.execute("SHOW COLUMNS FROM medimate_register LIKE %s", ("is_primary_admin",))
+        if not cursor.fetchone():
+            cursor.execute(
+                "ALTER TABLE medimate_register ADD COLUMN is_primary_admin "
+                "TINYINT(1) NOT NULL DEFAULT 0"
+            )
+        ensure_primary_admin(cursor)
         connection.commit()
     finally:
         cursor.close()
